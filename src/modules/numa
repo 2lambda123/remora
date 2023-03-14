@@ -28,7 +28,7 @@ init_module_numa()
     REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
     local numStat=`numastat -c`
     local numNodes=`echo $numStat | grep -o ' Node' | wc -l`
-    header="#TIME"
+    header="time"
 
         header="$header all_pgs_mb"
         header="$header huge_pgs_mb"

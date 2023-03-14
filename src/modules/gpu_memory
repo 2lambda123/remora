@@ -22,7 +22,7 @@
 #  2.- The full path where the output will be stored/read
 #  3.- The full path to an optional temporary storage location
 
-init_module_gpu()
+init_module_gpu_memory()
 {
     REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
     if [[ "$REMORA_CUDA" == "1" ]]; then
@@ -32,7 +32,7 @@ init_module_gpu()
     
         rm -f $OUT_FILE
     
-        printf "%-17s " "#TIME" >$OUT_FILE
+        printf "%-17s " "time" >$OUT_FILE
     
         for gpu_no in `seq 0 $LAST_GPU_NO`; do
            printf "%-17s %-17s " "gpu_${gpu_no}_avail_GB" "gpu_${gpu_no}_used_GB" >>$OUT_FILE
@@ -49,7 +49,7 @@ init_module_gpu()
     fi
 }
 
-collect_data_gpu()
+collect_data_gpu_memory()
 {
     REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
     # Get GPU utilization data
@@ -70,17 +70,17 @@ collect_data_gpu()
 }
 # This function might perform some processing on the data.
 # If nothing needs to be done, it can be empty (but declared)
-process_data_gpu()
+process_data_gpu_memory()
 {
   :
 }
 
-monitor_data_gpu()
+monitor_data_gpu_memory()
 {
   :
 }
 
-plot_data_gpu()
+plot_data_gpu_memory()
 {
     REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
 
@@ -217,7 +217,7 @@ plot_data_gpu()
   fi
 }
 
-finalize_module_gpu()
+finalize_module_gpu_memory()
 {
     REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
     plot_data_gpu $REMORA_NODE $REMORA_OUTDIR $REMORA_TMPDIR

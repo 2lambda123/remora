@@ -1,0 +1,85 @@
+#!/bin/bash
+#
+#========================================================================
+# HEADER
+#========================================================================
+#% DESCRIPTION
+#% gpu
+#%
+#% DO NOT call this script directly. This is called by REMORA
+#%
+#========================================================================
+#- IMPLEMENTATION
+#-      version     REMORA 1.8.5
+#-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
+#-                  Antonio Gomez  ( agomez@tacc.utexas.edu)
+#-      custodian   Kent Milfeld   (milfeld@tacc.utexas.edu)
+#-      license     MIT
+#========================================================================
+
+# All the functions take three arguments:
+#  1.- The name of the node where this function is running
+#  2.- The full path where the output will be stored/read
+#  3.- The full path to an optional temporary storage location
+
+init_module_gpu_util()
+{
+    REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
+    if [[ "$REMORA_CUDA" == "1" ]]; then
+        local OUT_FILE=$REMORA_TMPDIR/gpu_util_stats_${REMORA_NODE}.txt
+        local NGPUS=$( nvidia-smi -L |wc -l )
+        local LAST_GPU_NO=$(( NGPUS - 1 ))
+    
+        rm -f $OUT_FILE
+    
+        printf "%-17s " "time" >$OUT_FILE
+    
+        for gpu_no in `seq 0 $LAST_GPU_NO`; do
+           printf "%-17s %-17s " "gpu_${gpu_no}_util" >>$OUT_FILE
+        done
+        printf "\n"           >>$OUT_FILE 
+    fi
+}
+
+collect_data_gpu_util()
+{
+    REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
+    # Get GPU utilization data
+    if [[ "$REMORA_CUDA" == "1" ]]; then
+        current_time=`date +%s`
+	# if the machine has more than one GPU it will output the utilization with a space for each value ex: 0 0 0 0
+        gpu_free_used=$( nvidia-smi --query-gpu=utilization.gpu --format=csv,nounits,noheader )
+        gpu_free_used=$( echo $gpu_free_used | sed 's/, */ /g' )
+
+           line=$( printf "%-17d " $current_time )
+	line+=$( printf "\n" )
+        for val in $gpu_free_used; do
+           valgb=$( echo "scale=3;  $val" | bc )
+           line+=$( printf "%-17.3f " $valgb )
+        done
+           line+=$( printf "\n" )
+
+        echo "$line" >> $REMORA_TMPDIR/gpu_util_stats_${REMORA_NODE}.txt
+    fi
+}
+# This function might perform some processing on the data.
+# If nothing needs to be done, it can be empty (but declared)
+process_data_gpu_util()
+{
+  :
+}
+
+monitor_data_gpu_util()
+{
+  :
+}
+
+plot_data_gpu_util()
+{
+  :
+}
+
+finalize_module_gpu_util()
+{
+    REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3
+}

@@ -29,7 +29,7 @@ init_module_memory()
     vmem_max_global=0
     rmem_max_global=0
     tmem_max_global=0
-    printf "%-17s %-17s %-17s %-17s %-17s %-17s %-17s %-17s\n" "#TIME" "VMEM_MAX" "VMEM" "RMEM_MAX" "RMEM" "SHMEM" "MEM_FREE" "TMEM_MAX"> $REMORA_TMPDIR/memory_stats_${REMORA_NODE}.txt
+    printf "%-17s %-17s %-17s %-17s %-17s %-17s %-17s %-17s\n" "time" "VMEM_MAX" "VMEM" "RMEM_MAX" "RMEM" "SHMEM" "MEM_FREE" "TMEM_MAX"> $REMORA_TMPDIR/memory_stats_${REMORA_NODE}.txt
     if [[ "$REMORA_MODE" == "MONITOR" ]]; then
 		REMORA_MASTER=`head -n 1 $REMORA_OUTDIR/remora_nodes.txt`
 		if [[ "$REMORA_NODE" == "$REMORA_MASTER" ]]; then

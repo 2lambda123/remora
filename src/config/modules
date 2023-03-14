@@ -8,7 +8,8 @@ dvs,IO
 lustre,IO
 lnet,IO
 ib,NETWORK
-gpu,MEMORY
+gpu_memory,GPU
+gpu_util,GPU
 network,NETWORK
 power,POWER
 temperature,TEMPERATURE

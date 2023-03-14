@@ -58,7 +58,9 @@ init_module_ib()
             ib_rcv_bytes=`cat $ib_rcv_byte_cntr`
         fi
     fi
-
+    printf "%10s %10s %10s %10s %10s\n" \
+    "time" "xmit_packets" "rcv_packets" "xmit_data" "rcv_data" \
+    >> $REMORA_TMPDIR/ib_packets-${REMORA_NODE}.txt
 }
 
 collect_data_ib()
