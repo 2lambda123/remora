@@ -35,7 +35,7 @@ init_module_gpu_util()
         printf "%-17s " "time" >$OUT_FILE
     
         for gpu_no in `seq 0 $LAST_GPU_NO`; do
-           printf "%-17s %-17s " "gpu_${gpu_no}_util" >>$OUT_FILE
+           printf "%-17s " "gpu_${gpu_no}_util" >>$OUT_FILE
         done
         printf "\n"           >>$OUT_FILE 
     fi
